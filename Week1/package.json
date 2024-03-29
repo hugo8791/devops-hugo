@@ -30,13 +30,17 @@
 
     "express": "~4.16.1",
 
+    "express-prom-bundle": "^7.0.0",
+
     "http-errors": "~1.6.3",
 
     "jade": "~1.11.0",
 
     "morgan": "~1.9.1",
 
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+
+    "prom-client": "^15.1.1"
 
   },
 

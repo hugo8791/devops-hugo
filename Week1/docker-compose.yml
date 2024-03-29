@@ -25,7 +25,14 @@ services:
     restart: always
     networks:
       - app-network
-
+    ports:
+      - '27017:27017'
+  db-exporter:
+    image: bitnami/mongodb-exporter:latest
+    environment:
+      - MONGODB_URI=mongodb://root:root@mongo:27017/
+    depends_on:
+      - mongo
   api:
     build:
       context: .
