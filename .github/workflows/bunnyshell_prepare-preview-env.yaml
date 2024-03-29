@@ -1,13 +1,10 @@
 name: Bunnyshell - Prepare Preview Environment Configuration
 on:
-  pull_request:
-    types: [ opened, reopened, synchronize ]
-    branches:
-      - '*'
-    paths-ignore:
-      - "*.md"
-  issue_comment:
-    types: [ created, edited ]
+  workflow_run:
+    workflows:
+      - "API CI"
+    types:
+      - completed
 jobs:
   deploy_prepare:
     name: Prepare Deployment of Environment
