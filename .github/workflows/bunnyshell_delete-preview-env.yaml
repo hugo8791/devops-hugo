@@ -14,7 +14,7 @@ jobs:
     name: Delete Environment
     uses: bunnyshell/workflows/.github/workflows/delete-env.yaml@v2
     with:
-      project-id: ${{ vars.BUNNYSHELL_PROJECT_ID }}
+      project-id: 2brqgVOXvp
       pr-number: ${{ github.event.number || github.event.issue.number }}
       allowed-users: "*"
       comment-on-pr: true
