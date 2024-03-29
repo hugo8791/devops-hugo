@@ -1,0 +1,66 @@
+kind: Environment
+name: preview
+type: primary
+urlHandle: pqrksq
+components:
+    -
+        kind: Application
+        name: api
+        gitRepo: 'https://github.com/Chokio/avans-devops-2324-jarnohugo.git'
+        gitBranch: main
+        gitApplicationPath: Week1
+        dockerCompose:
+            build:
+                context: ./Week1
+                dockerfile: Dockerfile
+            environment:
+                MONGO_URL: 'mongodb://root:root@mongo:27017/'
+            ports:
+                - '3000:3000'
+        hosts:
+            -
+                hostname: 'api-{{ env.base_domain }}'
+                path: /
+                servicePort: 3000
+    -
+        kind: Service
+        name: messagebus
+        dockerCompose:
+            hostname: messagebus
+            image: 'rabbitmq:latest'
+            labels:
+                NAME: messagebus
+            ports:
+                - '4369:4369'
+                - '5671:5671'
+                - '5672:5672'
+                - '25672:25672'
+                - '15671:15671'
+                - '15672:15672'
+        hosts:
+            -
+                hostname: 'messagebus-{{ env.base_domain }}'
+                path: /
+                servicePort: 4369
+    -
+        kind: Database
+        name: mongo
+        dockerCompose:
+            environment:
+                MONGO_INITDB_DATABASE: devops
+                MONGO_INITDB_ROOT_PASSWORD: root
+                MONGO_INITDB_ROOT_USERNAME: root
+            image: mongo
+            ports:
+                - '27017:27017'
+            restart: always
+        volumes:
+            -
+                name: mongo-data
+                mount: /data/db
+                subPath: ''
+volumes:
+    -
+        name: mongo-data
+        size: 1Gi
+        type: disk

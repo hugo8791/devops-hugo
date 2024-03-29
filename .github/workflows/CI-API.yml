@@ -1,0 +1,37 @@
+name: API CI
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - 'Week1/**'
+    pull_request:
+        branches:
+            - main
+jobs:
+    test:
+      runs-on: ubuntu-latest
+      strategy:
+        matrix:
+          node-version: [20.x] # Zorg dat je de versie kiest die je nodig hebt
+      defaults:
+        run:
+          working-directory: 'Week1'
+      steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install Dependencies
+        run: npm ci
+        working-directory: Week1
+      - name: Run Tests
+        run: npm test
+        working-directory: Week1
+      - name: Jest coverage report
+        uses: ArtiomTr/jest-coverage-report-action@v2.2.6
+        with:
+            working-directory: Week1
+      - name: ESLint
+        run: npm run lint

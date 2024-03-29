@@ -1,0 +1,27 @@
+--- Create docker network
+docker network create DBNetwork
+
+--- run mongodb docker met netwerk
+docker run -d --name DEVOPSDB --network DBNetwork mongo
+
+--- run api prod docker
+docker run -p 6969:6969 --network DBNetwork mijn-api-prod
+
+--- run api dev docker
+docker run -d -p 6969:6969 --name mijn-api-dev --mount type=bind,source="$(pwd)",target=/app mijn-api-dev
+
+--- build productie omgeving
+docker build -f Dockerfile.prod -t mijn-api-prod .
+
+======
+
+bunnyshell
+
+--- User token
+2802:89b60a55222d486110f99e9ef52fd988
+
+--- Project ID
+BMadpdEaEJ
+
+--- Cluster ID
+AYNlwezMm9
