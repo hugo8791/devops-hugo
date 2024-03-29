@@ -18,10 +18,10 @@ docker build -f Dockerfile.prod -t mijn-api-prod .
 bunnyshell
 
 --- User token
-2802:89b60a55222d486110f99e9ef52fd988
+2901:da643ff14668877931806570a4b6d6cf
 
 --- Project ID
-BMadpdEaEJ
+2brqgVOXvp
 
 --- Cluster ID
-AYNlwezMm9
+8rGr7jJMlR
