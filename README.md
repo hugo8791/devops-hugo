@@ -3,5 +3,4 @@
 [![API CI](https://github.com/hugo8791/devops-hugo/actions/workflows/CI-API.yml/badge.svg)](https://github.com/hugo8791/devops-hugo/actions/workflows/CI-API.yml)
 
 
-
 Hallo dit is leuke readme
