@@ -69,7 +69,11 @@ components:
         kind: Service
         name: prometheus
         dockerCompose:
-            image: 'prom/prometheus:latest'
+            command:
+                - '--web.enable-lifecycle'
+                - '--config.file=/etc/prometheus/prometheus.yml'
+            hostname: prometheus
+            image: 'prom/prometheus:2.44'
             ports:
                 - '9090:9090'
         hosts:
