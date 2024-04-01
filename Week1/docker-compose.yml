@@ -49,6 +49,9 @@ services:
     build:
       context: prom_volume/
       dockerfile: Dockerfile
+    command:
+      - '--web.enable-lifecycle'
+      - '--config.file=/etc/prometheus/prometheus.yml'
     ports:
       - "9090:9090"
     depends_on:
