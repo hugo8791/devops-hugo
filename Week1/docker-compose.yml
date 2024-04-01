@@ -46,9 +46,9 @@ services:
     networks:
       - app-network
   prometheus:
-    image: prom/prometheus:latest
-    volumes:
-      - ./prom_volume/prometheus.yml:/etc/prometheus/prometheus.yml
+    build:
+      context: prom_volume/
+      dockerfile: Dockerfile
     command:
       - '--web.enable-lifecycle'
       - '--config.file=/etc/prometheus/prometheus.yml'
