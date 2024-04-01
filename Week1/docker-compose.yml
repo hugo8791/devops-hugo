@@ -56,7 +56,10 @@ services:
       - "9090:9090"
     depends_on:
       - db-exporter
-
+  grafana:
+    build: ./grafana
+    ports:
+      - 3005:3000
 networks:
   app-network:
 

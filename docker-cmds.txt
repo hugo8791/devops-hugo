@@ -25,3 +25,15 @@ bunnyshell
 
 --- Cluster ID
 8rGr7jJMlR
+
+
+-------
+
+prometheus
+
+
+Show api jobs
+{job="express-api"}
+
+show mongodb jobs
+{job="mongodb"}
