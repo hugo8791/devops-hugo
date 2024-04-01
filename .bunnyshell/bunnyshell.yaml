@@ -23,6 +23,13 @@ components:
                 path: /
                 servicePort: 3000
     -
+        kind: Database
+        name: db-exporter
+        dockerCompose:
+            environment:
+                MONGODB_URI: 'mongodb://root:root@mongo:27017/'
+            image: 'bitnami/mongodb-exporter:latest'
+    -
         kind: Service
         name: messagebus
         dockerCompose:
@@ -47,7 +54,6 @@ components:
         name: mongo
         dockerCompose:
             environment:
-                MONGO_INITDB_DATABASE: devops
                 MONGO_INITDB_ROOT_PASSWORD: root
                 MONGO_INITDB_ROOT_USERNAME: root
             image: mongo
@@ -59,6 +65,18 @@ components:
                 name: mongo-data
                 mount: /data/db
                 subPath: ''
+    -
+        kind: Service
+        name: prometheus
+        dockerCompose:
+            image: 'prom/prometheus:latest'
+            ports:
+                - '9090:9090'
+        hosts:
+            -
+                hostname: 'prometheus-{{ env.base_domain }}'
+                path: /
+                servicePort: 9090
 volumes:
     -
         name: mongo-data
