@@ -33,6 +33,8 @@ services:
       - MONGODB_URI=mongodb://root:root@mongo:27017/
     depends_on:
       - mongo
+    ports:
+      - "9216:9216"
   api:
     build:
       context: .
