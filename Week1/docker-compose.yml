@@ -46,9 +46,9 @@ services:
     networks:
       - app-network
   prometheus:
-    image: prom/prometheus:latest
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    build:
+      context: prom_volume/
+      dockerfile: Dockerfile
     ports:
       - "9090:9090"
     depends_on:
