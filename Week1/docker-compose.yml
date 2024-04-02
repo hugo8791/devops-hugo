@@ -47,7 +47,7 @@ services:
       context: ../document-service/
       dockerfile: Dockerfile
     environment:
-      - MONGODB_URI=mongodb://root:root@mongodoc:27017/
+      - MONGODB_URI=mongodb://root:root@mongodoc:27018/
     ports:
       - '3001:3001'
     depends_on:
