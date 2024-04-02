@@ -15,6 +15,7 @@ services:
       - "15671:15671"
     networks:
       - app-network
+
   mongo:
     image: mongo
     environment:
@@ -27,14 +28,33 @@ services:
       - app-network
     ports:
       - '27017:27017'
+
+  mongodoc:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongo-data-doc:/data/db
+    restart: always
+    networks:
+      - app-network
+    ports:
+      - '27018:27017'
+
   document-service:
     build:
       context: ../document-service/
       dockerfile: Dockerfile
+    environment:
+      - MONGODB_URI=mongodb://root:root@mongodoc:27017/
     ports:
       - '3001:3001'
+    depends_on:
+      - mongodoc
     networks:
       - app-network
+
   db-exporter:
     image: bitnami/mongodb-exporter:latest
     environment:
@@ -43,6 +63,15 @@ services:
       - mongo
     ports:
       - "9216:9216"
+
+  db-exporter-doc:
+    image: bitnami/mongodb-exporter:latest
+    environment:
+      - MONGODB_URI=mongodb://root:root@mongodoc:27017/
+    depends_on:
+      - mongodoc
+    ports:
+      - "9217:9216"
   api:
     build:
       context: .
@@ -66,6 +95,8 @@ services:
       - "9090:9090"
     depends_on:
       - db-exporter
+      - db-exporter-doc
+
   grafana:
     build: ./grafana
     ports:
@@ -75,3 +106,4 @@ networks:
 
 volumes:
   mongo-data:
+  mongo-data-doc:
