@@ -7,10 +7,6 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-
-
-
-
 var app = express();
 const promBundle = require('express-prom-bundle');
 const metricsMiddleware = promBundle({includeMethod: true, includePath: true, includeStatusCode: true, normalizePath: true, promClient: {collectDefaultMetrics: {}}});

@@ -11,6 +11,14 @@ scrape_configs:
     static_configs:
       - targets: ['api:3000']
 
+  - job_name: 'doc-api'
+    static_configs:
+      - targets: ['document-service:3001']
+
   - job_name: 'mongodb'
     static_configs:
       - targets: ['db-exporter:9216']
+
+  - job_name: 'mongodb-doc'
+    static_configs:
+      - targets: ['db-exporter-doc:9216']
