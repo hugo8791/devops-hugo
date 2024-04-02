@@ -59,19 +59,25 @@ services:
     image: bitnami/mongodb-exporter:latest
     environment:
       - MONGODB_URI=mongodb://root:root@mongo:27017/
+    command: --collect-all --discovering-mode
     depends_on:
       - mongo
     ports:
       - "9216:9216"
+    networks:
+      - app-network
 
   db-exporter-doc:
     image: bitnami/mongodb-exporter:latest
     environment:
-      - MONGODB_URI=mongodb://root:root@mongodoc:27017/
+      - MONGODB_URI=mongodb://root:root@mongodoc:27018/
     depends_on:
       - mongodoc
     ports:
       - "9217:9216"
+    networks:
+      - app-network
+  
   api:
     build:
       context: .
@@ -96,6 +102,7 @@ services:
     depends_on:
       - db-exporter
       - db-exporter-doc
+      
 
   grafana:
     build: ./grafana
