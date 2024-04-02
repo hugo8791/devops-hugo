@@ -1,18 +1,18 @@
 version: '3.8'
 services:
   messagebus:
-    image: rabbitmq:latest
+    image: rabbitmq:3-management
     container_name: messagebus
     hostname: "messagebus"
     labels:
       NAME: "messagebus"
     ports:
+      - "15672:15672"
       - "5672:5672"
       - "4369:4369"
       - "5671:5671"
       - "25672:25672"
       - "15671:15671"
-      - "15672:15672"
     networks:
       - app-network
   mongo:
