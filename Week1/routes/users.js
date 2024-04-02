@@ -37,7 +37,7 @@ router.get('/', async function(req, res, next) { // eslint-disable-line no-unuse
 
  
 
-router.post('/', async function(req, res, next){
+router.post('/', async function(req, res, next){ // eslint-disable-line no-unused-vars
   db.collection('users').insertOne(req.body)
     .then(async (user) => {
       // Successfully inserted user, now publish message to RabbitMQ

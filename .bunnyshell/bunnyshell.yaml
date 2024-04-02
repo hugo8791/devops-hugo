@@ -1,7 +1,7 @@
 kind: Environment
 name: preview
 type: primary
-urlHandle: pqrksq23
+urlHandle: pqrksq2344
 components:
     -
         kind: Application
@@ -26,9 +26,45 @@ components:
         kind: Database
         name: db-exporter
         dockerCompose:
+            command:
+                - '--collect-all'
+                - '--discovering-mode'
             environment:
                 MONGODB_URI: 'mongodb://root:root@mongo:27017/'
             image: 'bitnami/mongodb-exporter:latest'
+            ports:
+                - '9216:9216'
+    -
+        kind: Database
+        name: db-exporter-doc
+        dockerCompose:
+            command:
+                - '--collect-all'
+                - '--discovering-mode'
+            environment:
+                MONGODB_URI: 'mongodb://root:root@mongodoc:27018/'
+            image: 'bitnami/mongodb-exporter:latest'
+            ports:
+                - '9217:9216'
+    -
+        kind: Application
+        name: document-service
+        gitRepo: 'https://github.com/hugo8791/devops-hugo.git'
+        gitBranch: main
+        gitApplicationPath: document-service
+        dockerCompose:
+            build:
+                context: ./document-service
+                dockerfile: Dockerfile
+            environment:
+                MONGODB_URI: 'mongodb://root:root@mongodoc:27017/'
+            ports:
+                - '3001:3001'
+        hosts:
+            -
+                hostname: 'document-service-{{ env.base_domain }}'
+                path: /
+                servicePort: 3001
     -
         kind: Application
         name: grafana
@@ -51,21 +87,21 @@ components:
         name: messagebus
         dockerCompose:
             hostname: messagebus
-            image: 'rabbitmq:latest'
+            image: 'rabbitmq:3-management'
             labels:
                 NAME: messagebus
             ports:
+                - '15672:15672'
+                - '5672:5672'
                 - '4369:4369'
                 - '5671:5671'
-                - '5672:5672'
                 - '25672:25672'
                 - '15671:15671'
-                - '15672:15672'
         hosts:
             -
                 hostname: 'messagebus-{{ env.base_domain }}'
                 path: /
-                servicePort: 5672
+                servicePort: 15672
     -
         kind: Database
         name: mongo
@@ -80,6 +116,22 @@ components:
         volumes:
             -
                 name: mongo-data
+                mount: /data/db
+                subPath: ''
+    -
+        kind: Database
+        name: mongodoc
+        dockerCompose:
+            environment:
+                MONGO_INITDB_ROOT_PASSWORD: root
+                MONGO_INITDB_ROOT_USERNAME: root
+            image: mongo
+            ports:
+                - '27018:27017'
+            restart: always
+        volumes:
+            -
+                name: mongo-data-doc
                 mount: /data/db
                 subPath: ''
     -
@@ -105,5 +157,9 @@ components:
 volumes:
     -
         name: mongo-data
+        size: 1Gi
+        type: disk
+    -
+        name: mongo-data-doc
         size: 1Gi
         type: disk
