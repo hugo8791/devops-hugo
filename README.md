@@ -2,5 +2,9 @@
 
 [![API CI](https://github.com/hugo8791/devops-hugo/actions/workflows/CI-API.yml/badge.svg)](https://github.com/hugo8791/devops-hugo/actions/workflows/CI-API.yml)
 
+[![Bunnyshell - Delete Preview Environment](https://github.com/hugo8791/devops-hugo/actions/workflows/bunnyshell_delete-preview-env.yaml/badge.svg)](https://github.com/hugo8791/devops-hugo/actions/workflows/bunnyshell_delete-preview-env.yaml)
+[![Bunnyshell - Deploy Preview Environment](https://github.com/hugo8791/devops-hugo/actions/workflows/bunnyshell_deploy-preview-env.yaml/badge.svg)](https://github.com/hugo8791/devops-hugo/actions/workflows/bunnyshell_deploy-preview-env.yaml)
+[![Bunnyshell - Prepare Preview Environment Configuration](https://github.com/hugo8791/devops-hugo/actions/workflows/bunnyshell_prepare-preview-env.yaml/badge.svg)](https://github.com/hugo8791/devops-hugo/actions/workflows/bunnyshell_prepare-preview-env.yaml)
+[![pages-build-deployment](https://github.com/hugo8791/devops-hugo/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/hugo8791/devops-hugo/actions/workflows/pages/pages-build-deployment)
 
 Hallo dit is leuke readme
