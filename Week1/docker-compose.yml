@@ -47,7 +47,7 @@ services:
       context: ../document-service/
       dockerfile: Dockerfile
     environment:
-      - MONGODB_URI=mongodb://root:root@mongodoc:27017/
+      - MONGODB_URI=mongodb://root:root@mongodoc:27018/
     ports:
       - '3001:3001'
     depends_on:
@@ -71,6 +71,7 @@ services:
     image: bitnami/mongodb-exporter:latest
     environment:
       - MONGODB_URI=mongodb://root:root@mongodoc:27018/
+    command: --collect-all --discovering-mode
     depends_on:
       - mongodoc
     ports:
