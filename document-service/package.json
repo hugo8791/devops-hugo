@@ -4,7 +4,13 @@
   "description": "document service",
   "main": "app.js",
   "scripts": {
-    "test": "jest"
+    "start": "node ./bin/www",
+
+    "test": "jest",
+
+    "lint": "npx eslint .",
+
+    "dev": "nodemon --legacy-watch -r dotenv/config ./bin/www"
   },
   "repository": {
     "type": "git",
@@ -17,6 +23,7 @@
   },
   "homepage": "https://github.com/hugo8791/devops-hugo#readme",
   "dependencies": {
+    "amqplib": "^0.10.3",
     "express": "^4.19.2",
     "mongodb": "^6.5.0",
     "nodemon": "^3.1.0"

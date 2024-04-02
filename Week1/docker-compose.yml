@@ -27,6 +27,14 @@ services:
       - app-network
     ports:
       - '27017:27017'
+  document-service:
+    build:
+      context: ../document-service/
+      dockerfile: Dockerfile
+    ports:
+      - '3001:3001'
+    networks:
+      - app-network
   db-exporter:
     image: bitnami/mongodb-exporter:latest
     environment:

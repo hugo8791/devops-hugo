@@ -20,6 +20,8 @@
 
   "dependencies": {
 
+    "amqplib": "^0.10.3",
+
     "cookie-parser": "~1.4.4",
 
     "debug": "~2.6.9",
