@@ -30,6 +30,23 @@ components:
                 MONGODB_URI: 'mongodb://root:root@mongo:27017/'
             image: 'bitnami/mongodb-exporter:latest'
     -
+        kind: Application
+        name: grafana
+        gitRepo: 'https://github.com/hugo8791/devops-hugo.git'
+        gitBranch: main
+        gitApplicationPath: Week1/grafana
+        dockerCompose:
+            build:
+                context: ./Week1/grafana
+                dockerfile: Dockerfile
+            ports:
+                - '3005:3000'
+        hosts:
+            -
+                hostname: 'grafana-{{ env.base_domain }}'
+                path: /
+                servicePort: 3005
+    -
         kind: Service
         name: messagebus
         dockerCompose:
@@ -48,7 +65,7 @@ components:
             -
                 hostname: 'messagebus-{{ env.base_domain }}'
                 path: /
-                servicePort: 4369
+                servicePort: 5672
     -
         kind: Database
         name: mongo
@@ -66,14 +83,18 @@ components:
                 mount: /data/db
                 subPath: ''
     -
-        kind: Service
+        kind: Application
         name: prometheus
+        gitRepo: 'https://github.com/hugo8791/devops-hugo.git'
+        gitBranch: main
+        gitApplicationPath: Week1/prom_volume
         dockerCompose:
+            build:
+                context: ./Week1/prom_volume
+                dockerfile: Dockerfile
             command:
                 - '--web.enable-lifecycle'
                 - '--config.file=/etc/prometheus/prometheus.yml'
-            hostname: prometheus
-            image: 'prom/prometheus:2.44'
             ports:
                 - '9090:9090'
         hosts:

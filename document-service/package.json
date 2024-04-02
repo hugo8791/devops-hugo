@@ -1,0 +1,24 @@
+{
+  "name": "document-service",
+  "version": "1.0.0",
+  "description": "document service",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hugo8791/devops-hugo.git"
+  },
+  "author": "jarno&hugo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hugo8791/devops-hugo/issues"
+  },
+  "homepage": "https://github.com/hugo8791/devops-hugo#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongodb": "^6.5.0",
+    "nodemon": "^3.1.0"
+  }
+}
