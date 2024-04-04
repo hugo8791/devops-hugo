@@ -20,6 +20,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": 2583,
   "graphTooltip": 1,
+  "id": 3,
   "links": [],
   "panels": [
     {
@@ -745,8 +746,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "rgba(245, 54, 54, 0.9)",
-                "value": null
+                "color": "rgba(245, 54, 54, 0.9)"
               },
               {
                 "color": "rgba(237, 129, 40, 0.89)",
@@ -835,8 +835,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -922,8 +921,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               },
               {
                 "color": "red",
@@ -2010,8 +2008,8 @@
     ]
   },
   "timezone": "browser",
-  "title": "MongoDB3",
-  "uid": "adhjcr7xvh3pcc",
-  "version": 1,
+  "title": "MongoDB4",
+  "uid": "adhjcr7xvh3pBB",
+  "version": 2,
   "weekStart": ""
 }
