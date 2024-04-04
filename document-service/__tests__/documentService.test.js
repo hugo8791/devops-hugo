@@ -8,7 +8,7 @@ const app = require('../app'); // Adjust the path according to your app structur
 
 // Preparing a user's data for the test
 const testUserData = { id: "testuser", name: "John Doe", age: 30 };
-const userFilesDir = path.join(__dirname, 'userfiles');
+const userFilesDir = path.join(__dirname, '../userfiles');
 const userFilePath = path.join(userFilesDir, `${testUserData.id}.txt`);
 
 // Ensure the userfiles directory exists
