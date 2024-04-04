@@ -30,10 +30,11 @@ app.get('/user/:id', (req, res) => {
         console.error('Error reading user file:', err);
         return res.status(500).send('Error reading user data');
       }
-      res.json(JSON.parse(data));
+      res.json(JSON.parse(data)); // This should set Content-Type to application/json
     });
   } else {
-    res.status(404).send('User not found');
+    // Make sure this path also returns JSON
+    res.status(404).json({ error: 'User not found' });
   }
 });
 
