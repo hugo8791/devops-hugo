@@ -28,7 +28,7 @@ async function startRabbitMQConsumer() {
         const userFilesDir = path.join(__dirname, 'userfiles');
         // eslint-disable-next-line no-undef
         if (!fs.existsSync(userFilesDir)){
-            // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line no-undef
           fs.mkdirSync(userFilesDir);
         }
         // eslint-disable-next-line no-undef
