@@ -35,18 +35,6 @@ components:
             ports:
                 - '9216:9216'
     -
-        kind: Database
-        name: db-exporter-doc
-        dockerCompose:
-            command:
-                - '--collect-all'
-                - '--discovering-mode'
-            environment:
-                MONGODB_URI: 'mongodb://root:root@mongodoc:27018/'
-            image: 'bitnami/mongodb-exporter:latest'
-            ports:
-                - '9217:9216'
-    -
         kind: Application
         name: document-service
         gitRepo: 'https://github.com/hugo8791/devops-hugo.git'
@@ -119,22 +107,6 @@ components:
                 mount: /data/db
                 subPath: ''
     -
-        kind: Database
-        name: mongodoc
-        dockerCompose:
-            environment:
-                MONGO_INITDB_ROOT_PASSWORD: root
-                MONGO_INITDB_ROOT_USERNAME: root
-            image: mongo
-            ports:
-                - '27018:27017'
-            restart: always
-        volumes:
-            -
-                name: mongo-data-doc
-                mount: /data/db
-                subPath: ''
-    -
         kind: Application
         name: prometheus
         gitRepo: 'https://github.com/hugo8791/devops-hugo.git'
@@ -157,9 +129,5 @@ components:
 volumes:
     -
         name: mongo-data
-        size: 1Gi
-        type: disk
-    -
-        name: mongo-data-doc
         size: 1Gi
         type: disk

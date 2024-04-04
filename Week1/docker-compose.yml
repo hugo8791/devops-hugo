@@ -93,4 +93,3 @@ networks:
 
 volumes:
   mongo-data:
-  mongo-data-doc:
