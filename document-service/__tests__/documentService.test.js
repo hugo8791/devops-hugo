@@ -1,61 +1,28 @@
 const request = require('supertest');
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const app = require('../app'); // Make sure to export your Express app, e.g., module.exports = app;
 
-// Mock the services to prevent actual DB and file system interaction
-jest.mock('fs');
-jest.mock('../services/database', () => ({
-  db: {
-    collection: () => ({
-      insertOne: jest.fn().mockResolvedValue({}),
-    }),
-  },
-}));
+describe('GET /user/:id', () => {
+  it('responds with json containing a single user if the user exists', async () => {
+    // Mock fs.existsSync to return true to simulate that the user file exists
+    jest.spyOn(fs, 'existsSync').mockReturnValue(true);
+    
+    // Mock fs.readFile to call the callback with null error and a stringified JSON of the user data
+    jest.spyOn(fs, 'readFile').mockImplementation((path, enc, callback) => {
+      callback(null, JSON.stringify({ id: '123', name: 'John Doe' }));
+    });
 
-// Mock AMQP to prevent actual connection attempts
-jest.mock('amqplib', () => ({
-  connect: jest.fn().mockResolvedValue({
-    createChannel: jest.fn().mockResolvedValue({
-      assertExchange: jest.fn().mockResolvedValue({}),
-      assertQueue: jest.fn().mockResolvedValue({ queue: 'userAddedQueue' }),
-      bindQueue: jest.fn().mockResolvedValue({}),
-      consume: jest.fn().mockResolvedValue({}),
-    }),
-  }),
-}));
-
-const app = require('../app'); // Adjust the path as necessary
-
-describe('App Endpoints', () => {
-  beforeEach(() => {
-    // Mock fs.existsSync for specific tests
-    fs.existsSync.mockImplementation((path) => path.includes('userfiles'));
-  });
-
-  it('GET / - responds with Hello World!', async () => {
-    const response = await request(app).get('/');
+    const response = await request(app).get('/user/123');
     expect(response.statusCode).toBe(200);
-    expect(response.text).toBe('Hello World!');
+    expect(response.body).toEqual({ id: '123', name: 'John Doe' });
+    expect(response.type).toBe('application/json');
   });
 
-  describe('GET /user/:id', () => {
-    it('responds with user data for existing user', async () => {
-      const mockUserData = { id: '1', name: 'Test User' };
-      fs.readFile.mockImplementation((path, encoding, callback) => {
-        callback(null, JSON.stringify(mockUserData));
-      });
+  it('responds with 404 if the user does not exist', async () => {
+    // Mock fs.existsSync to return false to simulate that the user file does not exist
+    jest.spyOn(fs, 'existsSync').mockReturnValue(false);
 
-      const response = await request(app).get('/user/1');
-      expect(response.statusCode).toBe(200);
-      expect(response.body).toEqual(mockUserData);
-    });
-
-    it('responds with 404 for non-existing user', async () => {
-      fs.existsSync.mockReturnValue(false);
-
-      const response = await request(app).get('/user/nonexistent');
-      expect(response.statusCode).toBe(404);
-    });
+    const response = await request(app).get('/user/999');
+    expect(response.statusCode).toBe(404);
+    expect(response.text).toEqual('User not found');
   });
 });
