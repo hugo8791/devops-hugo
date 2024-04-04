@@ -10,7 +10,7 @@
 
     "start": "node ./bin/www",
 
-    "test": "jest",
+    "test": "NODE_ENV=test jest",
 
     "lint": "npx eslint .",
 

@@ -91,6 +91,8 @@ app.get('/user/:id', (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
-  // Start the RabbitMQ consumer when the app starts
-  startRabbitMQConsumer();
+  // Check if the environment is not test before starting the RabbitMQ consumer
+  if (process.env.NODE_ENV !== 'test') {
+    startRabbitMQConsumer();
+  }
 });
