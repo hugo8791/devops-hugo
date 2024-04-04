@@ -29,14 +29,12 @@ services:
     ports:
       - '27017:27017'
 
-
-
   document-service:
     build:
       context: ../document-service/
       dockerfile: Dockerfile
     environment:
-      - MONGODB_URI=mongodb://root:root@mongodoc:27017/
+      - MONGODB_URI=mongodb://root:root@mongo:27017/
     ports:
       - '3001:3001'
     depends_on:
@@ -56,8 +54,6 @@ services:
     networks:
       - app-network
 
-
-  
   api:
     build:
       context: .
