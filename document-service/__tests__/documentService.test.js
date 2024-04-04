@@ -1,41 +1,61 @@
 const request = require('supertest');
-
+const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
-// Import the express app, not starting the server here
-const app = require('../app'); // Adjust the path according to your app structure
+// Mock the services to prevent actual DB and file system interaction
+jest.mock('fs');
+jest.mock('./services/database', () => ({
+  db: {
+    collection: () => ({
+      insertOne: jest.fn().mockResolvedValue({}),
+    }),
+  },
+}));
 
-// Preparing a user's data for the test
-const testUserData = { id: "testuser", name: "John Doe", age: 30 };
-const userFilesDir = path.join(__dirname, '../userfiles');
-const userFilePath = path.join(userFilesDir, `${testUserData.id}.txt`);
+// Mock AMQP to prevent actual connection attempts
+jest.mock('amqplib', () => ({
+  connect: jest.fn().mockResolvedValue({
+    createChannel: jest.fn().mockResolvedValue({
+      assertExchange: jest.fn().mockResolvedValue({}),
+      assertQueue: jest.fn().mockResolvedValue({ queue: 'userAddedQueue' }),
+      bindQueue: jest.fn().mockResolvedValue({}),
+      consume: jest.fn().mockResolvedValue({}),
+    }),
+  }),
+}));
 
+const app = require('./app'); // Adjust the path as necessary
 
-// Ensure the userfiles directory exists
-if (!fs.existsSync(userFilesDir)){
-  fs.mkdirSync(userFilesDir);
-}
-
-// Write a test user file
-fs.writeFileSync(userFilePath, JSON.stringify(testUserData, null, 2), 'utf8');
-
-describe('GET /user/:id', () => {
-  it('responds with the user data for a given user ID', async () => {
-    const response = await request(app)
-      .get(`/user/${testUserData.id}`)
-      .expect('Content-Type', /json/)
-      .expect(200);
-
-    // Verify the response data
-    expect(response.body).toEqual(testUserData);
+describe('App Endpoints', () => {
+  beforeEach(() => {
+    // Mock fs.existsSync for specific tests
+    fs.existsSync.mockImplementation((path) => path.includes('userfiles'));
   });
 
-  // Add more test cases as needed
-});
+  it('GET / - responds with Hello World!', async () => {
+    const response = await request(app).get('/');
+    expect(response.statusCode).toBe(200);
+    expect(response.text).toBe('Hello World!');
+  });
 
-// Optional: Cleanup after tests
-afterAll(() => {
-  // Remove the test user file
-  fs.unlinkSync(userFilePath);
+  describe('GET /user/:id', () => {
+    it('responds with user data for existing user', async () => {
+      const mockUserData = { id: '1', name: 'Test User' };
+      fs.readFile.mockImplementation((path, encoding, callback) => {
+        callback(null, JSON.stringify(mockUserData));
+      });
+
+      const response = await request(app).get('/user/1');
+      expect(response.statusCode).toBe(200);
+      expect(response.body).toEqual(mockUserData);
+    });
+
+    it('responds with 404 for non-existing user', async () => {
+      fs.existsSync.mockReturnValue(false);
+
+      const response = await request(app).get('/user/nonexistent');
+      expect(response.statusCode).toBe(404);
+    });
+  });
 });
