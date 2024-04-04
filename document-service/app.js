@@ -88,11 +88,10 @@ app.get('/user/:id', (req, res) => {
       res.status(404).send('User not found');
     }
 });
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-  // Check if the environment is not test before starting the RabbitMQ consumer
-  if (process.env.NODE_ENV !== 'test') {
-    startRabbitMQConsumer();
-  }
-});
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+    // Check if the environment is not test before starting the RabbitMQ consumer
+      startRabbitMQConsumer();
+  });
+}
