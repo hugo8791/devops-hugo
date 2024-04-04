@@ -24,17 +24,20 @@ async function startRabbitMQConsumer() {
       if (msg.content) {
         console.log(" [x] Received %s", msg.content.toString());
         const user = JSON.parse(msg.content.toString());
-
+        // eslint-disable-next-line no-undef
         const userFilesDir = path.join(__dirname, 'userfiles');
+        // eslint-disable-next-line no-undef
         if (!fs.existsSync(userFilesDir)){
           fs.mkdirSync(userFilesDir);
         }
-
+        // eslint-disable-next-line no-undef
         const outputPath = path.join(userFilesDir, `${user.id}.txt`);
+        // eslint-disable-next-line no-undef
         fs.writeFileSync(outputPath, JSON.stringify(user, null, 2), 'utf8');
         console.log(`User info saved to ${outputPath}`);
 
         try {
+            // eslint-disable-next-line no-undef
           await db.collection('users').insertOne(user).then(() => {
             console.log('User added to database');
           });
