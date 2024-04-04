@@ -3,6 +3,7 @@ const express = require('express');
 const app = express();
 const fs = require('fs');
 const path = require('path');
+// eslint-disable-next-line no-unused-vars
 const { db } = require("./services/database");
 const promBundle = require('express-prom-bundle');
 
