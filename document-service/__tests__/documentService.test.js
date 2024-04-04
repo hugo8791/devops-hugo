@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Import the express app, not starting the server here
-const app = require('./app'); // Adjust the path according to your app structure
+const app = require('../app'); // Adjust the path according to your app structure
 
 // Preparing a user's data for the test
 const testUserData = { id: "testuser", name: "John Doe", age: 30 };
