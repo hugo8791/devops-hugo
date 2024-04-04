@@ -1,11 +1,27 @@
+const request = require('supertest');
+const app = require('../app');
+const { db, client } = require('../services/database');
 
-//const documentService = require('../document-service');
+describe('Get Users', () => {
+  beforeEach(async () => {
+    await db.collection('users').deleteMany({});
+  });
 
+  afterAll(async() => {
+    client.close();
+  });
 
-describe('Document Service', () => {
-  it('should correctly handle documents', () => {
-    // Your test logic here
+  it('should get all users in array', async () => {
+    const expected = { 'foo': 'bar' };
+    await db.collection('users').insertOne(expected);
+    delete expected._id;
+
     
-    expect(true).toBe(true); // Example assertion
+    const res = await request(app).get('/users');
+    expect(res.statusCode).toEqual(200);
+
+    
+    expect(res.body.length).toEqual(1);
+    expect(res.body[0]).toEqual(expect.objectContaining(expected));
   });
 });
