@@ -5,7 +5,7 @@ const path = require('path');
 
 // Mock the services to prevent actual DB and file system interaction
 jest.mock('fs');
-jest.mock('./services/database', () => ({
+jest.mock('../services/database', () => ({
   db: {
     collection: () => ({
       insertOne: jest.fn().mockResolvedValue({}),
@@ -25,7 +25,7 @@ jest.mock('amqplib', () => ({
   }),
 }));
 
-const app = require('./app'); // Adjust the path as necessary
+const app = require('../app'); // Adjust the path as necessary
 
 describe('App Endpoints', () => {
   beforeEach(() => {
