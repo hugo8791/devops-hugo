@@ -10,11 +10,11 @@
 
     "start": "node ./bin/www",
 
-    "test": "jest",
+    "test": "NODE_ENV=test jest --detectOpenHandles",
 
     "lint": "npx eslint .",
 
-    "dev": "nodemon --legacy-watch -r dotenv/config ./bin/www"
+    "dev": "nodemon --legacy-watch -r dotenv/config app.js"
 
   },
 
