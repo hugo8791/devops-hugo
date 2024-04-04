@@ -1,5 +1,6 @@
 const request = require('supertest');
 const app = require('../app'); // Make sure to export your Express app, e.g., module.exports = app;
+const fs = require('fs');
 
 describe('GET /user/:id', () => {
   it('responds with json containing a single user if the user exists', async () => {
