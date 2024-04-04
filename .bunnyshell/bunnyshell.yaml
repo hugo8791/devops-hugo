@@ -23,54 +23,6 @@ components:
                 path: /
                 servicePort: 3000
     -
-        kind: Database
-        name: db-exporter
-        dockerCompose:
-            command:
-                - '--collect-all'
-                - '--discovering-mode'
-            environment:
-                MONGODB_URI: 'mongodb://root:root@mongo:27017/'
-            image: 'bitnami/mongodb-exporter:latest'
-            ports:
-                - '9216:9216'
-    -
-        kind: Application
-        name: document-service
-        gitRepo: 'https://github.com/hugo8791/devops-hugo.git'
-        gitBranch: main
-        gitApplicationPath: document-service
-        dockerCompose:
-            build:
-                context: ./document-service
-                dockerfile: Dockerfile
-            environment:
-                MONGODB_URI: 'mongodb://root:root@mongodoc:27017/'
-            ports:
-                - '3001:3001'
-        hosts:
-            -
-                hostname: 'document-service-{{ env.base_domain }}'
-                path: /
-                servicePort: 3001
-    -
-        kind: Application
-        name: grafana
-        gitRepo: 'https://github.com/hugo8791/devops-hugo.git'
-        gitBranch: main
-        gitApplicationPath: Week1/grafana
-        dockerCompose:
-            build:
-                context: ./Week1/grafana
-                dockerfile: Dockerfile
-            ports:
-                - '3005:3000'
-        hosts:
-            -
-                hostname: 'grafana-{{ env.base_domain }}'
-                path: /
-                servicePort: 3005
-    -
         kind: Service
         name: messagebus
         dockerCompose:
@@ -106,26 +58,6 @@ components:
                 name: mongo-data
                 mount: /data/db
                 subPath: ''
-    -
-        kind: Application
-        name: prometheus
-        gitRepo: 'https://github.com/hugo8791/devops-hugo.git'
-        gitBranch: main
-        gitApplicationPath: Week1/prom_volume
-        dockerCompose:
-            build:
-                context: ./Week1/prom_volume
-                dockerfile: Dockerfile
-            command:
-                - '--web.enable-lifecycle'
-                - '--config.file=/etc/prometheus/prometheus.yml'
-            ports:
-                - '9090:9090'
-        hosts:
-            -
-                hostname: 'prometheus-{{ env.base_domain }}'
-                path: /
-                servicePort: 9090
 volumes:
     -
         name: mongo-data
