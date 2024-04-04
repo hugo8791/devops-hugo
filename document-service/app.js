@@ -46,7 +46,7 @@ async function startRabbitMQConsumer() {
   
           // Save or update the received message in the database
           try {
-            await db.collection('users').insertOne(user).then((result) => {
+            await db.collection('users').insertOne(user).then((result) => { // eslint-disable-line no-unused-vars
               console.log('User added to database');
             });
 

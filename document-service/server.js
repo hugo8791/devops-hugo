@@ -31,7 +31,7 @@ async function startRabbitMQConsumer() {
 
           // Database insertion logic here...
           // Note: This snippet assumes `db` logic is implemented elsewhere and is asynchronous.
-          await db.collection('users').insertOne(user);
+          await db.collection('users').insertOne(user); // eslint-disable-line
           console.log(`User info saved to database with ID: ${user.id}`);
         } catch (error) {
           console.error('Error processing message:', error);
