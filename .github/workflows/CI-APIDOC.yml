@@ -1,10 +1,10 @@
-name: API CI
+name: API CI DOC
 on:
     push:
         branches:
             - main
         paths:
-            - 'Week1/**'
+            - 'document-service/**'
     pull_request:
         branches:
             - main
@@ -16,7 +16,7 @@ jobs:
           node-version: [20.x] # Zorg dat je de versie kiest die je nodig hebt
       defaults:
         run:
-          working-directory: 'Week1'
+          working-directory: 'document-service'
       steps:
       - uses: actions/checkout@v4
       - name: Setup Node.js
@@ -25,13 +25,13 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install Dependencies
         run: npm ci
-        working-directory: Week1
+        working-directory: document-service
       - name: Run Tests
         run: npm test
-        working-directory: Week1
+        working-directory: document-service
       - name: Jest coverage report
         uses: ArtiomTr/jest-coverage-report-action@v2.2.6
         with:
-            working-directory: Week1
+            working-directory: document-service
       - name: ESLint
         run: npm run lint

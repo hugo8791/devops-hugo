@@ -46,7 +46,7 @@ async function startRabbitMQConsumer() {
   
           // Save or update the received message in the database
           try {
-            await db.collection('users').insertOne(user).then((result) => {
+            await db.collection('users').insertOne(user).then((result) => { // eslint-disable-line no-unused-vars
               console.log('User added to database');
             });
 
@@ -63,11 +63,11 @@ async function startRabbitMQConsumer() {
     }
   }
 
-app.get('/', (req, res) => {
+app.get('/', (req, res) => { // eslint-disable-line no-unused-vars
   res.send('Hello World!');
 });
 
-app.get('/user/:id', (req, res) => {
+app.get('/user/:id', (req, res) => { // eslint-disable-line no-unused-vars
     const userId = req.params.id;
     const userFilesDir = path.join(__dirname, 'userfiles');
     const userFilePath = path.join(userFilesDir, `${userId}.txt`);
