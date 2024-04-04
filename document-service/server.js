@@ -1,10 +1,8 @@
-// server.js
 const app = require('./app'); // Import the Express application
 const amqp = require('amqplib');
-const port = 3001;
-
-// RabbitMQ connection URL
-const amqpUrl = 'amqp://messagebus';
+const fs = require('fs').promises; // Use promise-based fs module
+const path = require('path');
+const { port, amqpUrl, userFilesDir } = require('./config'); // Import configurations
 
 async function startRabbitMQConsumer() {
   try {
@@ -24,28 +22,19 @@ async function startRabbitMQConsumer() {
       if (msg.content) {
         console.log(" [x] Received %s", msg.content.toString());
         const user = JSON.parse(msg.content.toString());
-        // eslint-disable-next-line no-undef
-        const userFilesDir = path.join(__dirname, 'userfiles');
-        // eslint-disable-next-line no-undef
-        if (!fs.existsSync(userFilesDir)){
-        // eslint-disable-next-line no-undef
-          fs.mkdirSync(userFilesDir);
-        }
-        // eslint-disable-next-line no-undef
-        const outputPath = path.join(userFilesDir, `${user.id}.txt`);
-        // eslint-disable-next-line no-undef
-        fs.writeFileSync(outputPath, JSON.stringify(user, null, 2), 'utf8');
-        console.log(`User info saved to ${outputPath}`);
 
         try {
-            // eslint-disable-next-line no-undef
-          await db.collection('users').insertOne(user).then(() => {
-            console.log('User added to database');
-          });
+          await fs.mkdir(userFilesDir, { recursive: true });
+          const outputPath = path.join(userFilesDir, `${user.id}.txt`);
+          await fs.writeFile(outputPath, JSON.stringify(user, null, 2), 'utf8');
+          console.log(`User info saved to ${outputPath}`);
 
+          // Database insertion logic here...
+          // Note: This snippet assumes `db` logic is implemented elsewhere and is asynchronous.
+          await db.collection('users').insertOne(user);
           console.log(`User info saved to database with ID: ${user.id}`);
-        } catch (dbError) {
-          console.error('Error saving user to database:', dbError);
+        } catch (error) {
+          console.error('Error processing message:', error);
         }
       }
     }, { noAck: true });

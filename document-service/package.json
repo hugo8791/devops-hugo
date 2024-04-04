@@ -14,7 +14,7 @@
 
     "lint": "npx eslint .",
 
-    "dev": "nodemon --legacy-watch -r dotenv/config ./bin/www"
+    "dev": "nodemon --legacy-watch -r dotenv/config app.js"
 
   },
 
