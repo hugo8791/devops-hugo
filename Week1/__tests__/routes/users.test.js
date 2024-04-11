@@ -13,6 +13,8 @@ describe('Get Users', () => {
     client.close();
   });
 
+
+  
   it('should get all users in array', async () => {
     const expected = { 'foo': 'bar' };
     await db.collection('users').insertOne(expected);

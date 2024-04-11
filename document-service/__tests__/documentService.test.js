@@ -12,6 +12,8 @@ describe('GET /user/:id', () => {
       callback(null, JSON.stringify({ id: '123', name: 'John Doe' }));
     });
 
+
+    
     const response = await request(app).get('/user/123');
     expect(response.statusCode).toBe(200);
     expect(response.body).toEqual({ id: '123', name: 'John Doe' });
